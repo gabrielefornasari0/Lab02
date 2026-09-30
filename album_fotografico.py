@@ -28,7 +28,7 @@ def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
     try:
         with open(file_path, "a") as f:
-            foto=f.write(f'\n{codice},{titolo},{autore},{mese},{anno}\n')
+            foto=f.write(f'{codice},{titolo},{autore},{mese},{anno}\n')
             if anno not in album:
                 album[anno] = []
             else:
@@ -49,18 +49,30 @@ def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
 
 def cerca_foto(album, codice):
     """Cerca una foto nell'album dato il codice"""
-    if codice in album:
-        print (f'{album[codice]}')
-    else:
-        print('Codice non troivato')
+    for anno in album:
+        for foto in album[anno]:
+            if foto[0] == codice:
+                risultato=foto
+
+        return risultato
+
+
+
 
 
 def elenco_foto_anno_per_titolo(album, anno):
     """Ordina i titoli delle foto di un dato anno in ordine alfabetico"""
-    if anno in album:
-        foto_ordinate=sorted(album[anno],key=lambda foto:album[1])
-        for riga in foto_ordinate:
-            print(riga)
+
+    anno_str = str(anno)
+    # Ordina le foto dell'anno in base al titolo (indice 1)
+    foto_ordinate = sorted(album[anno_str], key=lambda foto: foto[1])
+
+    # Estrae solo i titoli
+    titoli = []
+    for foto in foto_ordinate:
+        titoli.append(foto[1])
+
+    return titoli
 
 def main():
     album = []
